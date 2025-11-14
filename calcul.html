@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>آلة حاسبة متقدمة شاملة</title>
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #e0e5ec, #f0f4f8);
+}
+.calculator {
+    width: 400px;
+    padding: 20px;
+    border-radius: 15px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+#display {
+    width: 100%;
+    height: 60px;
+    font-size: 22px;
+    margin-bottom: 15px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.3);
+    color: #111;
+    font-weight: bold;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.15);
+}
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-gap: 8px;
+}
+button {
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.25);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    font-weight: bold;
+}
+button:hover {
+    background: rgba(255,255,255,0.4);
+    transform: translateY(-1px);
+}
+button:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+.operator { background: rgba(200,200,200,0.4); }
+.span2 { grid-column: span 2; }
+.science { background: rgba(180,220,255,0.35); }
+.program { background: rgba(220,180,255,0.35); }
+</style>
+</head>
+<body>
+<div class="calculator">
+<input type="text" id="display" placeholder="اكتب أي شيء هنا...">
+<div class="buttons">
+<!-- Row 1 -->
+<button onclick="clearDisplay()">C</button>
+<button onclick="backspace()">⌫</button>
+<button onclick="appendOperator('(')">(</button>
+<button onclick="appendOperator(')')">)</button>
+<button onclick="appendOperator('%')">%</button>
+<button onclick="calculate()" class="operator">=</button>
+
+<!-- Numbers -->
+<button onclick="appendNumber('7')">7</button>
+<button onclick="appendNumber('8')">8</button>
+<button onclick="appendNumber('9')">9</button>
+<button onclick="appendOperator('/')">÷</button>
+<button onclick="appendFunction('sqrt')" class="science">√</button>
+<button onclick="appendFunction('square')" class="science">x²</button>
+
+<button onclick="appendNumber('4')">4</button>
+<button onclick="appendNumber('5')">5</button>
+<button onclick="appendNumber('6')">6</button>
+<button onclick="appendOperator('*')">×</button>
+<button onclick="appendFunction('x^3')" class="science">x³</button>
+<button onclick="appendFunction('pow')" class="science">xʸ</button>
+
+<button onclick="appendNumber('1')">1</button>
+<button onclick="appendNumber('2')">2</button>
+<button onclick="appendNumber('3')">3</button>
+<button onclick="appendOperator('-')">−</button>
+<button onclick="appendFunction('ln')" class="science">ln</button>
+<button onclick="appendFunction('log')" class="science">log</button>
+
+<button onclick="appendNumber('0')">0</button>
+<button onclick="appendOperator('.')">.</button>
+<button onclick="appendOperator('+')">+</button>
+<button onclick="appendFunction('sin')" class="science">sin</button>
+<button onclick="appendFunction('cos')" class="science">cos</button>
+<button onclick="appendFunction('tan')" class="science">tan</button>
+
+<button onclick="appendFunction('sinh')" class="science">sinh</button>
+<button onclick="appendFunction('cosh')" class="science">cosh</button>
+<button onclick="appendFunction('tanh')" class="science">tanh</button>
+<button onclick="appendFunction('pi')" class="science">π</button>
+<button onclick="appendFunction('e')" class="science">e</button>
+<button onclick="appendFunction('factorial')" class="science">n!</button>
+
+<!-- Advanced -->
+<button onclick="appendFunction('nCr')" class="science">nCr</button>
+<button onclick="appendFunction('nPr')" class="science">nPr</button>
+<button onclick="appendOperator('&')" class="program">AND</button>
+<button onclick="appendOperator('|')" class="program">OR</button>
+<button onclick="appendOperator('^')" class="program">XOR</button>
+<button onclick="appendOperator('~')" class="program">NOT</button>
+</div>
+</div>
+
+<script>
+let display = document.getElementById('display');
+
+function appendNumber(num){ display.value += num; }
+function appendOperator(op){ display.value += op; }
+
+function appendFunction(fn){
+switch(fn){
+    case 'sqrt': display.value += 'Math.sqrt('; break;
+    case 'square': display.value += '**2'; break;
+    case 'x^3': display.value += '**3'; break;
+    case 'pow': display.value += '**'; break;
+    case 'sin': display.value += 'Math.sin('; break;
+    case 'cos': display.value += 'Math.cos('; break;
+    case 'tan': display.value += 'Math.tan('; break;
+    case 'sinh': display.value += 'Math.sinh('; break;
+    case 'cosh': display.value += 'Math.cosh('; break;
+    case 'tanh': display.value += 'Math.tanh('; break;
+    case 'ln': display.value += 'Math.log('; break;
+    case 'log': display.value += 'Math.log10('; break;
+    case 'pi': display.value += 'Math.PI'; break;
+    case 'e': display.value += 'Math.E'; break;
+    case 'factorial': display.value += 'factorial('; break;
+    case 'nCr': display.value += 'nCr('; break;
+    case 'nPr': display.value += 'nPr('; break;
+}
+}
+
+function clearDisplay(){ display.value=''; }
+function backspace(){ display.value = display.value.slice(0,-1); }
+
+function calculate(){
+try{
+    display.value = eval(display.value);
+}catch(e){ display.value='خطأ'; }
+}
+
+// Factorial
+function factorial(n){
+    n=parseInt(n);
+    if(n<0) return NaN;
+    if(n===0||n===1) return 1;
+    return n*factorial(n-1);
+}
+// nPr
+function nPr(n,r){ return factorial(n)/factorial(n-r); }
+// nCr
+function nCr(n,r){ return factorial(n)/(factorial(r)*factorial(n-r)); }
+</script>
+</body>
+</html>
